@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Infobeans_WhatsApp::whatsapp" title="WhatsApp" module="Infobeans_WhatsApp" sortOrder="51" resource="Infobeans_WhatsApp::whatsapp"/>
+        <add id="Infobeans_WhatsApp::template" title="Templates" module="Infobeans_WhatsApp" sortOrder="10" action="whatsapp/templates/index" resource="Infobeans_WhatsApp::templates" parent="Infobeans_WhatsApp::whatsapp"/>
+    </menu>
+</config>

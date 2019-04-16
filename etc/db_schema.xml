@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="whatsapp_templates" resource="default" engine="innodb"
+               comment="WhatsApp Templates">
+        <column xsi:type="int" name="id" unsigned="false" nullable="false" identity="true" comment="ID"/>
+        <column xsi:type="smallint" name="store_id" unsigned="true" nullable="false" identity="false"
+                comment="Store ID"/>
+        <column xsi:type="varchar" name="title" nullable="false" length="255" comment="Template Name"/>
+        <column xsi:type="varchar" name="identifier" nullable="false" length="255" comment="Block String Identifier"/>
+        <column xsi:type="mediumtext" name="content" nullable="false" comment="Content"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Page Creation Time"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Page Modification Time"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="WHATSAPP_STORE_STORE_ID_STORE_ID" table="whatsapp_templates"
+                    column="store_id" referenceTable="store" referenceColumn="store_id" onDelete="CASCADE"/>
+        <index referenceId="WHATSAPP_TITLE_IDENTIFIER_CONTENT" indexType="fulltext">
+            <column name="title"/>
+            <column name="identifier"/>
+            <column name="content"/>
+        </index>
+        <index referenceId="WHATSAPP_STORE_STORE_ID" indexType="btree">
+            <column name="store_id"/>
+        </index>
+    </table>
+</schema>

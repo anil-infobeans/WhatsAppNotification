@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Magento/Backend/etc/system_file.xsd">
+    <system>
+        <tab id="infobeans" translate="label" sortOrder="100">
+            <label>InfoBeans</label>
+        </tab>
+        <section id="whatsapp" showInDefault="1" sortOrder="1" showInWebsite="1" showInStore="1">
+            <tab>infobeans</tab>
+            <label>WhatsApp Order Notification</label>
+            <resource>Infobeans_WhatsApp::whatsapp</resource>
+            <group id="apisetting" showInDefault="1" sortOrder="10">
+                <label>Twilio API Configuration</label>
+                <field id="enable" type="select" showInDefault="1" sortOrder="0" showInWebsite="1" showInStore="1">
+                    <label>WhatsApp Order Notification Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+                </field>
+                <field id="sid" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Account SID</label>
+                    <depends><field id="enable">1</field></depends>
+                    <comment><![CDATA[ Cretae an account on https://www.twilio.com]]></comment>
+                </field>
+                <field id="token" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Account Token</label>
+                    <depends><field id="enable">1</field></depends>
+                </field>
+                <field id="sender_id" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sender Number</label>
+                    <depends><field id="enable">1</field></depends>
+                    <comment><![CDATA[Enter Sender Number With Country code & without any sign.]]></comment>
+                </field>
+            </group>
+            <group id="orderplace" showInDefault="1" sortOrder="30">
+                <label>Order Placement Notification Settings</label>
+                <field id="enable" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="template" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Template</label>
+                    <source_model>Infobeans\WhatsApp\Model\Config\Source\Templates</source_model>
+                </field>
+            </group>
+            <group id="shipment" showInDefault="1" sortOrder="30">
+                <label>Order Shipment Notification Settings</label>
+                <field id="enable" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="template" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Template</label>
+                    <source_model>Infobeans\WhatsApp\Model\Config\Source\Templates</source_model>
+                </field>
+            </group>
+            <group id="ordercancel" showInDefault="1" sortOrder="30">
+                <label>Order Cancel Notification Settings</label>
+                <field id="enable" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="template" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Template</label>
+                    <source_model>Infobeans\WhatsApp\Model\Config\Source\Templates</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
