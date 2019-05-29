@@ -6,13 +6,14 @@ use Infobeans\WhatsApp\Api\Data\TemplatesInterface;
 use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\DataObject\IdentityInterface;
 
-class Templates extends AbstractModel  implements TemplatesInterface, IdentityInterface
+class Templates extends AbstractModel implements TemplatesInterface, IdentityInterface
 {
     const CACHE_TAG = 'whtsapp_t';
     /**
      * @return void
      */
-    protected function _construct() {
+    protected function _construct()
+    {
         $this->_init(\Infobeans\WhatsApp\Model\ResourceModel\Templates::class);
     }
     
@@ -136,18 +137,19 @@ class Templates extends AbstractModel  implements TemplatesInterface, IdentityIn
      *
      * @return array
      */
-    public function getIdentities() {
+    public function getIdentities()
+    {
         return [self::CACHE_TAG . '_' . $this->getId()];
     }
 
     /**
      * Set updated time
-     * 
+     *
      * @param type $updatedAt
      * @return type
      */
-    public function setUpdatedAt($updatedAt) {
+    public function setUpdatedAt($updatedAt)
+    {
         return $this->setData(self::UPDATED_AT, $updatedAt);
     }
-
 }

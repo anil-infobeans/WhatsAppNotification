@@ -5,7 +5,8 @@ namespace Infobeans\WhatsApp\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Infobeans\WhatsApp\Logger\Logger;
 
-class Placeafter implements ObserverInterface {
+class Placeafter implements ObserverInterface
+{
 
     protected $objectManager;
     protected $helperdata;
@@ -23,7 +24,6 @@ class Placeafter implements ObserverInterface {
         \Magento\Email\Model\Template\Filter $filter,
         \Infobeans\WhatsApp\Helper\Apicall $apiHelper,
         Logger $logger
-        
     ) {
         $this->orderFactory = $orderFactory;
         $this->helperdata = $helperdata;

@@ -1,6 +1,7 @@
 <?php
 
 namespace Infobeans\WhatsApp\Controller\Adminhtml\Templates;
+
 class NewAction extends \Magento\Backend\App\Action
 {
     /**

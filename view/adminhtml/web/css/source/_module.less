@@ -1,0 +1,12 @@
+@infobeanswhatsapp-icons-admin__font-name-path: '@{baseDir}InfoBeans_WhatsApp/fonts/whatsapp';
+@infobeanswhatsapp-icons-admin__font-name : 'WhatsApp';
+.lib-font-face(
+  @family-name:@infobeanswhatsapp-icons-admin__font-name,
+  @font-path: @infobeanswhatsapp-icons-admin__font-name-path,
+  @font-weight: normal,
+  @font-style: normal
+);
+.admin__menu .item-menuid.parent.level-0 > a:before {
+  font-family: @infobeanswhatsapp-icons-admin__font-name;
+  content: "\0041";
+}

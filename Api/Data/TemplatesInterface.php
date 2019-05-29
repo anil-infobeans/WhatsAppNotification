@@ -109,5 +109,4 @@ interface TemplatesInterface
      * @return \Infobeans\WhatsApp\Api\Data\TemplatesInterface
      */
     public function setUpdatedAt($updatedAt);
-
 }

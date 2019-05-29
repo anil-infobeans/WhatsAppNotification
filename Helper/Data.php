@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace Infobeans\WhatsApp\Helper;
 
 use Magento\Store\Model\ScopeInterface;
@@ -18,8 +18,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\App\Helper\Context $context,
         \Infobeans\WhatsApp\Model\TemplatesFactory $templateFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager
-    )
-    {
+    ) {
         $this->storeManager = $storeManager;
         $this->templateFactory = $templateFactory;
         parent::__construct($context);
@@ -33,26 +32,27 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function isEnabled()
     {
         return $this->scopeConfig->getValue(
-                self::XML_PATH_ENABLED,
-                ScopeInterface::SCOPE_STORE,
-                $this->getStoreid()
-            );
+            self::XML_PATH_ENABLED,
+            ScopeInterface::SCOPE_STORE,
+            $this->getStoreid()
+        );
     }
     public function isEnabledForOrder()
     {
         return $this->scopeConfig->getValue(
-                self::XML_SMS_USER_ORDER_PLACE_ENABLE,
-                ScopeInterface::SCOPE_STORE,
-                $this->getStoreid()
-            );
+            self::XML_SMS_USER_ORDER_PLACE_ENABLE,
+            ScopeInterface::SCOPE_STORE,
+            $this->getStoreid()
+        );
     }
 
-    public function getOrderPlaceTemplate() {
+    public function getOrderPlaceTemplate()
+    {
         $templateId = $this->scopeConfig->getValue(
-                self::XML_SMS_USER_USER_ORDER_PLACE_TEXT,
-                ScopeInterface::SCOPE_STORE,
-                $this->getStoreid()
-            );
+            self::XML_SMS_USER_USER_ORDER_PLACE_TEXT,
+            ScopeInterface::SCOPE_STORE,
+            $this->getStoreid()
+        );
         $template = $this->templateFactory->create();
         return $template->load($templateId)->getContent();
     }
@@ -60,18 +60,19 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function isEnabledForShipment()
     {
         return $this->scopeConfig->getValue(
-                self::XML_SMS_USER_ORDER_PLACE_ENABLE,
-                ScopeInterface::SCOPE_STORE,
-                $this->getStoreid()
-            );
+            self::XML_SMS_USER_ORDER_PLACE_ENABLE,
+            ScopeInterface::SCOPE_STORE,
+            $this->getStoreid()
+        );
     }
 
-    public function getOrderShipTemplate() {
+    public function getOrderShipTemplate()
+    {
         $templateId = $this->scopeConfig->getValue(
-                self::XML_SMS_USER_USER_ORDER_PLACE_TEXT,
-                ScopeInterface::SCOPE_STORE,
-                $this->getStoreid()
-            );
+            self::XML_SMS_USER_USER_ORDER_PLACE_TEXT,
+            ScopeInterface::SCOPE_STORE,
+            $this->getStoreid()
+        );
         $template = $this->templateFactory->create();
         return $template->load($templateId)->getContent();
     }
@@ -79,20 +80,20 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function isEnabledForOrderCancel()
     {
         return $this->scopeConfig->getValue(
-                self::XML_SMS_USER_ORDER_PLACE_ENABLE,
-                ScopeInterface::SCOPE_STORE,
-                $this->getStoreid()
-            );
+            self::XML_SMS_USER_ORDER_PLACE_ENABLE,
+            ScopeInterface::SCOPE_STORE,
+            $this->getStoreid()
+        );
     }
 
-    public function getOrderCancelTemplate() {
+    public function getOrderCancelTemplate()
+    {
         $templateId = $this->scopeConfig->getValue(
-                self::XML_SMS_USER_USER_ORDER_PLACE_TEXT,
-                ScopeInterface::SCOPE_STORE,
-                $this->getStoreid()
-            );
+            self::XML_SMS_USER_USER_ORDER_PLACE_TEXT,
+            ScopeInterface::SCOPE_STORE,
+            $this->getStoreid()
+        );
         $template = $this->templateFactory->create();
         return $template->load($templateId)->getContent();
     }
-
 }
