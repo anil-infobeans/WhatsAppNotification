@@ -1,6 +1,13 @@
 <?php
 
 namespace Infobeans\WhatsApp\Controller\Adminhtml\Templates;
+
+use Magento\Backend\App\Action;
+use Infobeans\WhatsApp\Model\TemplatesFactory;
+
+/**
+ * @codingStandardsIgnoreStart
+ */
 class Delete extends \Magento\Backend\App\Action
 {
     /**
@@ -18,8 +25,8 @@ class Delete extends \Magento\Backend\App\Action
      * @param \Magento\Backend\Model\View\Result\ForwardFactory $resultForwardFactory
      */
     public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Infobeans\WhatsApp\Model\TemplatesFactory $templateFactory
+        Action\Context $context,
+        TemplatesFactory $templateFactory
     ) {
         $this->templateFactory = $templateFactory;
         parent::__construct($context);

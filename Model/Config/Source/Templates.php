@@ -12,7 +12,6 @@ class Templates implements \Magento\Framework\Option\ArrayInterface
 {
     public function __construct(
         CollectionFactory $collectionFactory
-        
     ) {
         $this->collectionFactory = $collectionFactory;
     }
@@ -36,9 +35,8 @@ class Templates implements \Magento\Framework\Option\ArrayInterface
 //        ];
     }
     
-    public function getCollection(){
+    public function getCollection()
+    {
         return $collection = $this->collectionFactory->create();
     }
-    
-    
 }

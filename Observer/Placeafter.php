@@ -5,7 +5,8 @@ namespace Infobeans\WhatsApp\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Infobeans\WhatsApp\Logger\Logger;
 
-class Placeafter implements ObserverInterface {
+class Placeafter implements ObserverInterface
+{
 
     protected $objectManager;
     protected $helperdata;
@@ -23,7 +24,6 @@ class Placeafter implements ObserverInterface {
         \Magento\Email\Model\Template\Filter $filter,
         \Infobeans\WhatsApp\Helper\Apicall $apiHelper,
         Logger $logger
-        
     ) {
         $this->orderFactory = $orderFactory;
         $this->helperdata = $helperdata;
@@ -37,15 +37,15 @@ class Placeafter implements ObserverInterface {
     {
         try {
             if ($this->helperdata->isEnabled() && $this->helperdata->isEnabledForOrder()) {
-                $order_ids = $observer->getData('order_ids');
+                $orderIds = $observer->getData('order_ids');
                 $order = $this->orderFactory->create();
 
-                foreach ($order_ids as $key => $order_id) {
-                    $order_information = $order->load($order_id);
-                    $billingAddress = $order_information->getBillingAddress();
+                foreach ($orderIds as $key => $orderId) {
+                    $orderInformation = $order->load($orderId);
+                    $billingAddress = $orderInformation->getBillingAddress();
                     $mobilenumber = $billingAddress->getTelephone();
                     if ($order->getCustomerId() > 0) {
-                        $customer = $this->customerFactory->create()->load($order_information->getCustomerId());
+                        $customer = $this->customerFactory->create()->load($orderInformation->getCustomerId());
                         $this->emailfilter->setVariables([
                             'order' => $order,
                             'customer' => $customer,

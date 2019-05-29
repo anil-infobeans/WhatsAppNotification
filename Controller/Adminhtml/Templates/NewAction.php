@@ -1,6 +1,13 @@
 <?php
 
 namespace Infobeans\WhatsApp\Controller\Adminhtml\Templates;
+
+use Magento\Backend\App\Action;
+use Magento\Backend\Model\View\Result\ForwardFactory;
+
+/**
+ * @codingStandardsIgnoreStart
+ */
 class NewAction extends \Magento\Backend\App\Action
 {
     /**
@@ -18,8 +25,8 @@ class NewAction extends \Magento\Backend\App\Action
      * @param \Magento\Backend\Model\View\Result\ForwardFactory $resultForwardFactory
      */
     public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Backend\Model\View\Result\ForwardFactory $resultForwardFactory
+        Action\Context $context,
+        ForwardFactory $resultForwardFactory
     ) {
         $this->resultForwardFactory = $resultForwardFactory;
         parent::__construct($context);

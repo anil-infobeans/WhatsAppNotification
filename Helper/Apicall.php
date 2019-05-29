@@ -1,8 +1,8 @@
-<?php 
+<?php
 namespace Infobeans\WhatsApp\Helper;
 
 use Magento\Store\Model\ScopeInterface;
-use Twilio\Rest\Client; 
+use Twilio\Rest\Client;
 
 class Apicall extends \Magento\Framework\App\Helper\AbstractHelper
 {
@@ -15,8 +15,8 @@ class Apicall extends \Magento\Framework\App\Helper\AbstractHelper
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Store\Model\StoreManagerInterface $storeManager
-    )
-    {
+    ) {
+    
         $this->_storeManager = $storeManager;
         parent::__construct($context);
     }
@@ -28,36 +28,43 @@ class Apicall extends \Magento\Framework\App\Helper\AbstractHelper
 
     public function getSID()
     {
-        return $this->scopeConfig->getValue(self::XML_PATH_SID,
+        return $this->scopeConfig->getValue(
+            self::XML_PATH_SID,
             ScopeInterface::SCOPE_STORE,
-            $this->getStoreId());
+            $this->getStoreId()
+        );
     }
 
     public function getToken()
-	{
-        return $this->scopeConfig->getValue(self::XML_PATH_TOKEN,
+    {
+        return $this->scopeConfig->getValue(
+            self::XML_PATH_TOKEN,
             ScopeInterface::SCOPE_STORE,
-            $this->getStoreId());
+            $this->getStoreId()
+        );
     }
 
     public function getSenderId()
-	{
-        return $this->scopeConfig->getValue(self::XML_PATH_SENDER_ID,
+    {
+        return $this->scopeConfig->getValue(
+            self::XML_PATH_SENDER_ID,
             ScopeInterface::SCOPE_STORE,
-            $this->getStoreId());
+            $this->getStoreId()
+        );
     }
 
     public function call($mobilenumber, $finalmessage)
     {
-        $sid    = $this->getSID();//"ACc5fa089b7cc58f153e4a4edfacc25a23";
-        $token  = $this->getToken();//"82829e6846c1ffe7383c6052f9b27445";
+        $sid    = $this->getSID();
+        $token  = $this->getToken();
         $twilio = new Client($sid, $token);
 
-        $message = $twilio->messages->create("whatsapp:+".$mobilenumber, // to
-            array(
-               "from" => "whatsapp:+".$this->getSenderId(),//+14155238886
+        $message = $twilio->messages->create(
+            "whatsapp:+".$mobilenumber,
+            [
+               "from" => "whatsapp:+".$this->getSenderId(),
                "body" => $finalmessage
-            )
+            ]
         );
         return $message->sid;
     }

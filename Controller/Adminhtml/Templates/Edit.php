@@ -3,7 +3,12 @@
 namespace Infobeans\WhatsApp\Controller\Adminhtml\Templates;
 
 use Magento\Backend\App\Action;
+use Magento\Framework\View\Result\PageFactory;
+use Infobeans\WhatsApp\Model\TemplatesFactory;
 
+/**
+ * @codingStandardsIgnoreStart
+ */
 class Edit extends \Magento\Backend\App\Action
 {
     /**
@@ -24,8 +29,8 @@ class Edit extends \Magento\Backend\App\Action
 
     public function __construct(
         Action\Context $context,
-        \Magento\Framework\View\Result\PageFactory $resultPageFactory,
-        \Infobeans\WhatsApp\Model\TemplatesFactory $templateFactory
+        PageFactory $resultPageFactory,
+        TemplatesFactory $templateFactory
     ) {
         $this->resultPageFactory = $resultPageFactory;
         $this->templateFactory = $templateFactory;
@@ -60,5 +65,4 @@ class Edit extends \Magento\Backend\App\Action
             ->prepend($model->getId() ? $model->getTitle() : __('Create Template'));
         return $resultPage;
     }
-
 }

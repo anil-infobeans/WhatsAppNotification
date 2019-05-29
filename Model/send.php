@@ -6,7 +6,7 @@
 //require dirname(__DIR__,4) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR .'autoload.php';
 
 
-use Twilio\Rest\Client; 
+use Twilio\Rest\Client;
 
 // Find your Account Sid and Auth Token at twilio.com/console
 // DANGER! This is insecure. See http://twil.io/secure
@@ -20,16 +20,17 @@ As a last resort, you can use this emergency code to access the account:
 dahuxJCEQxJjYihviVX73gZK3tgOXAVwhcHvq9Ch*/
 
  
-$sid    = "ACc5fa089b7cc58f153e4a4edfacc25a23"; 
-$token  = "82829e6846c1ffe7383c6052f9b27445"; 
-$twilio = new Client($sid, $token); 
+$sid    = "ACc5fa089b7cc58f153e4a4edfacc25a23";
+$token  = "82829e6846c1ffe7383c6052f9b27445";
+$twilio = new Client($sid, $token);
  
-$message = $twilio->messages 
-                  ->create("whatsapp:+919561419835", // to 
-                           array( 
-                               "from" => "whatsapp:+14155238886",       
-                               "body" => "Hi There!" 
-                           ) 
-                  ); 
+$message = $twilio->messages
+                  ->create(
+                      "whatsapp:+919561419835", // to
+                      [
+                               "from" => "whatsapp:+14155238886",
+                               "body" => "Hi There!"
+                           ]
+                  );
  
-print($message->sid);
+print_r($message->sid);

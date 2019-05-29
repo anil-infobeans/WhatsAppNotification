@@ -5,7 +5,8 @@ namespace Infobeans\WhatsApp\Model\Templates;
 use \Infobeans\WhatsApp\Model\ResourceModel\Templates\CollectionFactory;
 use Magento\Store\Model\StoreManagerInterface;
 
-class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider {
+class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
+{
 
     public function __construct(
         $name,
@@ -16,23 +17,23 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider {
         array $meta = [],
         array $data = []
     ) {
-        parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data);
-        $this->collection = $collectionFactory->create();
+        $this->collectionFactory = $collectionFactory;
         $this->storeManager = $storeManager;
+        parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data);
     }
 
-    public function getData() {
+    public function getData()
+    {
         if (isset($this->loadedData)) {
             return $this->loadedData;
         }
 
-        $templates = $this->collection->getItems();
-        $this->loadedData = array();
+        $templates = $this->collectionFactory->create()->getItems();
+        $this->loadedData = [];
         foreach ($templates as $template) {
             $this->loadedData[$template->getId()] = $template->getData();
         }
 
         return $this->loadedData;
     }
-
 }

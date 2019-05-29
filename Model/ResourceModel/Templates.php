@@ -9,7 +9,6 @@ use Magento\Framework\EntityManager\MetadataPool;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\Exception\LocalizedException;
 
-
 class Templates extends AbstractDb
 {
     /**
@@ -28,8 +27,8 @@ class Templates extends AbstractDb
         StoreManagerInterface $storeManager,
         MetadataPool $metadataPool,
         $resourcePrefix = null
-    ) 
-    {
+    ) {
+    
         $this->storeManager = $storeManager;
         $this->metadataPool = $metadataPool;
         parent::__construct($context, $resourcePrefix);
