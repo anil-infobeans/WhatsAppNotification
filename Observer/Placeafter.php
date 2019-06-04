@@ -7,15 +7,42 @@ use Infobeans\WhatsApp\Logger\Logger;
 
 class Placeafter implements ObserverInterface
 {
-
-    protected $objectManager;
-    protected $helperdata;
+    /**
+     * @var \Magento\Customer\Model\CustomerFactory
+     */
     protected $customerFactory;
+
+    /**
+     * @var \Magento\Sales\Model\OrderFactory
+     */
     protected $emailfilter;
+
+    /**
+     * @var \Magento\Sales\Model\OrderFactory
+     */
+    protected $orderFactory;
+
+    /**
+     * @var \Infobeans\WhatsApp\Helper\Data
+     */
+    protected $helperdata;
+
+    /**
+     * @var \Infobeans\WhatsApp\Helper\Apicall
+     */
+    protected $apiHelper;
+
     /**
      * @var \ICC\Lms\Logger\Logger
      */
     protected $logger;
+
+    /**
+     * URL builder
+     *
+     * @var \Magento\Framework\UrlInterface
+     */
+    protected $_urlBuilder;
 
     public function __construct(
         \Magento\Sales\Model\OrderFactory $orderFactory,
@@ -23,11 +50,13 @@ class Placeafter implements ObserverInterface
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Email\Model\Template\Filter $filter,
         \Infobeans\WhatsApp\Helper\Apicall $apiHelper,
+        \Magento\Framework\UrlInterface $urlBuilder,
         Logger $logger
     ) {
         $this->orderFactory = $orderFactory;
         $this->helperdata = $helperdata;
         $this->customerFactory = $customerFactory;
+        $this->_urlBuilder = $urlBuilder;;
         $this->emailfilter = $filter;
         $this->apiHelper = $apiHelper;
         $this->logger = $logger;
@@ -37,26 +66,28 @@ class Placeafter implements ObserverInterface
     {
         try {
             if ($this->helperdata->isEnabled() && $this->helperdata->isEnabledForOrder()) {
-                $order_ids = $observer->getData('order_ids');
+                $orderIds = $observer->getData('order_ids');
                 $order = $this->orderFactory->create();
 
-                foreach ($order_ids as $key => $order_id) {
-                    $order_information = $order->load($order_id);
-                    $billingAddress = $order_information->getBillingAddress();
+                foreach ($orderIds as $key => $orderId) {
+                    $orderInformation = $order->load($orderId);
+                    $billingAddress = $orderInformation->getBillingAddress();
                     $mobilenumber = $billingAddress->getTelephone();
                     if ($order->getCustomerId() > 0) {
-                        $customer = $this->customerFactory->create()->load($order_information->getCustomerId());
+                        $customer = $this->customerFactory->create()->load($orderInformation->getCustomerId());
                         $this->emailfilter->setVariables([
                             'order' => $order,
                             'customer' => $customer,
                             'order_total' => $order->formatPriceTxt($order->getGrandTotal()),
-                            'mobilenumber' => $mobilenumber
+                            'mobilenumber' => $mobilenumber,
+                            'view_url' => $this->getViewUrl($order)
                         ]);
                     } else {
                         $this->emailfilter->setVariables([
                             'order' => $order,
                             'order_total' => $order->formatPriceTxt($order->getGrandTotal()),
-                            'mobilenumber' => $mobilenumber
+                            'mobilenumber' => $mobilenumber,
+                            'view_url' => $this->getViewUrl($order)
                         ]);
                     }
                     $message = $this->helperdata->getOrderPlaceTemplate();
@@ -70,5 +101,14 @@ class Placeafter implements ObserverInterface
             $this->logger->info("Error : ".$e->getMessage());
             return true;
         }
+    }
+    
+    /**
+     * @param object $order
+     * @return string
+     */
+    private function getViewUrl($order)
+    {
+        return $this->_urlBuilder->getUrl('sales/order/view', ['order_id' => $order->getId()]);
     }
 }

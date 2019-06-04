@@ -10,12 +10,20 @@ class Apicall extends \Magento\Framework\App\Helper\AbstractHelper
     const XML_PATH_TOKEN = 'whatsapp/apisetting/token';
     const XML_PATH_SENDER_ID = 'whatsapp/apisetting/sender_id';
 
+    /**
+     * @var \Magento\Store\Model\StoreManagerInterface 
+     */
     protected $_storeManager;
 
+    /**
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
+
         $this->_storeManager = $storeManager;
         parent::__construct($context);
     }

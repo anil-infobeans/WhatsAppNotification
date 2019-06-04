@@ -28,11 +28,6 @@ class Templates implements \Magento\Framework\Option\ArrayInterface
             $result[] = ['value' => $template->getId(), 'label' => __($template->getTitle())];
         }
         return $result;
-//        return [
-//            ['value' => 1, 'label' => __('Yes')],
-//            ['value' => 0, 'label' => __('No')],
-//            ['value' => 2, 'label' => __('Specified')]
-//        ];
     }
     
     public function getCollection()

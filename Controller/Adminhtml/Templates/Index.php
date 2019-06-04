@@ -5,6 +5,9 @@ namespace Infobeans\WhatsApp\Controller\Adminhtml\Templates;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\View\Result\PageFactory;
 
+/**
+ * @codingStandardsIgnoreStart
+ */
 class Index extends \Magento\Backend\App\Action
 {
     const ADMIN_RESOURCE = 'Infobeans_WhatsApp::templates';
@@ -22,6 +25,7 @@ class Index extends \Magento\Backend\App\Action
         Context $context,
         PageFactory $resultPageFactory
     ) {
+
         parent::__construct($context);
         $this->resultPageFactory = $resultPageFactory;
     }

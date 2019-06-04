@@ -12,6 +12,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     const XML_SMS_USER_ORDER_PLACE_ENABLE = 'whatsapp/orderplace/enable';
     const XML_SMS_USER_USER_ORDER_PLACE_TEXT = 'whatsapp/orderplace/template';
 
+     /**
+     * @var \Infobeans\WhatsApp\Model\TemplatesFactory 
+     */
+    protected $templateFactory;
+
+    /**
+     * @var \Magento\Store\Model\StoreManagerInterface 
+     */
     protected $storeManager;
 
     public function __construct(

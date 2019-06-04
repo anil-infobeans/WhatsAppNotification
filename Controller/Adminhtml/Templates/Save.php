@@ -5,7 +5,11 @@ namespace Infobeans\WhatsApp\Controller\Adminhtml\Templates;
 use Magento\Framework\App\Request\DataPersistorInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Backend\App\Action\Context;
+use Infobeans\WhatsApp\Model\TemplatesFactory;
 
+/**
+ * @codingStandardsIgnoreStart
+ */
 class Save extends \Magento\Backend\App\Action
 {
     /**
@@ -33,7 +37,7 @@ class Save extends \Magento\Backend\App\Action
     public function __construct(
         Context $context,
         DataPersistorInterface $dataPersistor,
-        \Infobeans\WhatsApp\Model\TemplatesFactory $templatesFactory
+        TemplatesFactory $templatesFactory
     ) {
         $this->dataPersistor = $dataPersistor;
         $this->templatesFactory= $templatesFactory;

@@ -5,6 +5,7 @@ namespace Infobeans\WhatsApp\Block\Adminhtml\Templates\Edit;
 use Magento\Backend\Block\Widget\Context;
 use Magento\Cms\Api\BlockRepositoryInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Infobeans\WhatsApp\Logger\Logger;
 
 /**
  * Class GenericButton
@@ -27,10 +28,12 @@ class GenericButton
      */
     public function __construct(
         Context $context,
-        BlockRepositoryInterface $blockRepository
+        BlockRepositoryInterface $blockRepository,
+        Logger $logger
     ) {
         $this->context = $context;
         $this->blockRepository = $blockRepository;
+        $this->logger = $logger;
     }
 
     /**
@@ -38,13 +41,14 @@ class GenericButton
      *
      * @return int|null
      */
-    public function getBlockId()
+    public function getTemplateId()
     {
         try {
             return $this->blockRepository->getById(
-                $this->context->getRequest()->getParam('block_id')
+                $this->context->getRequest()->getParam('id')
             )->getId();
         } catch (NoSuchEntityException $e) {
+            $this->logger->info("Error : " . $e->getMessage());
         }
         return null;
     }

@@ -10,8 +10,8 @@
     <settings>
         <buttons>
             <button name="back" class="Infobeans\WhatsApp\Block\Adminhtml\Templates\Edit\BackButton"/>
-            <!--<button name="reset" class="Infobeans\WhatsApp\Block\Adminhtml\Templates\Edit\ResetButton"/>-->
-<!--            <button name="delete" class="Infobeans\WhatsApp\Block\Adminhtml\Templates\Edit\DeleteButton"/>-->
+<!--            <button name="reset" class="Infobeans\WhatsApp\Block\Adminhtml\Templates\Edit\ResetButton"/>-->
+            <button name="delete" class="Infobeans\WhatsApp\Block\Adminhtml\Templates\Edit\DeleteButton"/>
             <button name="save" class="Infobeans\WhatsApp\Block\Adminhtml\Templates\Edit\SaveButton"/>
         </buttons>
         <namespace>whatsapp_templates_edit</namespace>

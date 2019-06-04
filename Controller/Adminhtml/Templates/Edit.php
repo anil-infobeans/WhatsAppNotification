@@ -6,6 +6,9 @@ use Magento\Backend\App\Action;
 use Magento\Framework\View\Result\PageFactory;
 use Infobeans\WhatsApp\Model\TemplatesFactory;
 
+/**
+ * @codingStandardsIgnoreStart
+ */
 class Edit extends \Magento\Backend\App\Action
 {
     /**

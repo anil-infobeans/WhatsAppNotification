@@ -14,34 +14,18 @@ use Magento\Framework\View\Element\UiComponent\Control\ButtonProviderInterface;
 class DeleteButton extends GenericButton implements ButtonProviderInterface
 {
     /**
-     * Constructor
-     *
-     * @param \Magento\Backend\Block\Widget\Context $context
-     * @param \Magento\Framework\Registry $registry
-     */
-    public function __construct(
-        \Magento\Backend\Block\Widget\Context $context,
-        \Magento\Framework\Registry $registry
-    ) {
-        parent::__construct($context, $registry);
-    }
-
-    /**
-     * @return array
+     * @inheritDoc
      */
     public function getButtonData()
     {
-        $customerId = $this->getId();
         $data = [];
-        if ($customerId) {
+        if ($this->getTemplateId()) {
             $data = [
-                'label' => __('Delete Customer'),
+                'label' => __('Delete Template'),
                 'class' => 'delete',
-                'id' => 'customer-edit-delete-button',
-                'data_attribute' => [
-                    'url' => $this->getDeleteUrl()
-                ],
-                'on_click' => '',
+                'on_click' => 'deleteConfirm(\'' . __(
+                    'Are you sure you want to do this?'
+                ) . '\', \'' . $this->getDeleteUrl() . '\', {"data": {}})',
                 'sort_order' => 20,
             ];
         }
@@ -49,10 +33,12 @@ class DeleteButton extends GenericButton implements ButtonProviderInterface
     }
 
     /**
+     * URL to send delete requests to.
+     *
      * @return string
      */
     public function getDeleteUrl()
     {
-        return $this->getUrl('*/*/delete', ['id' => $this->getId()]);
+        return $this->getUrl('*/*/delete', ['id' => $this->getTemplateId()]);
     }
 }

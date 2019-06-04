@@ -2,7 +2,7 @@
 
 namespace Infobeans\WhatsApp\Controller\Adminhtml\Templates;
 
-use Magento\Backend\App\Action\Context;
+use Magento\Backend\App\Action;
 use Infobeans\WhatsApp\Model\TemplatesFactory;
 
 /**
@@ -25,7 +25,7 @@ class Delete extends \Magento\Backend\App\Action
      * @param \Magento\Backend\Model\View\Result\ForwardFactory $resultForwardFactory
      */
     public function __construct(
-        Context $context,
+        Action\Context $context,
         TemplatesFactory $templateFactory
     ) {
         $this->templateFactory = $templateFactory;
@@ -38,12 +38,28 @@ class Delete extends \Magento\Backend\App\Action
      */
     public function execute()
     {
-        $templateId = $this->getRequest()->getParam('id');
-        $template = $this->templateFactory->create();
-        $template->load($templateId)->delete();
-        
         /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
         $resultRedirect = $this->resultRedirectFactory->create();
+        // check if we know what should be deleted
+        $templateId = $this->getRequest()->getParam('id');
+        if ($templateId) {
+            try {
+                $template = $this->templateFactory->create();
+                $template->load($templateId)->delete();
+                // display success message
+                $this->messageManager->addSuccessMessage(__('You deleted the block.'));
+                // go to grid
+                return $resultRedirect->setPath('*/*/');
+            } catch (\Exception $e) {
+                // display error message
+                $this->messageManager->addErrorMessage($e->getMessage());
+                // go back to edit form
+                return $resultRedirect->setPath('*/*/edit', ['block_id' => $id]);
+            }
+        }
+        // display error message
+        $this->messageManager->addErrorMessage(__('We can\'t find a block to delete.'));
+        // go to grid
         return $resultRedirect->setPath('*/*/');
     }
 }

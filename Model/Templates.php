@@ -8,7 +8,7 @@ use Magento\Framework\DataObject\IdentityInterface;
 
 class Templates extends AbstractModel implements TemplatesInterface, IdentityInterface
 {
-    const CACHE_TAG = 'whtsapp_t';
+    const CACHE_TAG = 'whtsapp_template';
     /**
      * @return void
      */
