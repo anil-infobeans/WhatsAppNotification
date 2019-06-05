@@ -1,6 +1,13 @@
 <?php
-
-
+/**
+ * Infobeans_WhatsApp Module
+ * @category    Infobeans
+ * @package     Infobeans_WhatsApp
+ * @version     1.0.0
+ * @description Module Regstration Class
+ * @author      Infobeans
+ * @codingStandardsIgnoreStart
+ */
 \Magento\Framework\Component\ComponentRegistrar::register(
     \Magento\Framework\Component\ComponentRegistrar::MODULE,
     'Infobeans_WhatsApp',

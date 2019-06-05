@@ -1,5 +1,13 @@
 <?php
-
+/**
+ * Infobeans_WhatsApp Module
+ * @category   Infobeans
+ * @package    Infobeans_WhatsApp
+ * @version    1.0.0
+ * @description DataProvider Class
+ * @author     Infobeans
+ * @codingStandardsIgnoreStart
+ */
 namespace Infobeans\WhatsApp\Model\Templates;
 
 use Infobeans\WhatsApp\Model\ResourceModel\Templates\CollectionFactory;

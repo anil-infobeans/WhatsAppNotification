@@ -1,4 +1,13 @@
 <?php
+/**
+ * Infobeans_WhatsApp Module
+ * @category   Infobeans
+ * @package    Infobeans_WhatsApp
+ * @version    1.0.0
+ * @description Data Class
+ * @author     Infobeans
+ * @codingStandardsIgnoreStart
+ */
 namespace Infobeans\WhatsApp\Helper;
 
 use Magento\Store\Model\ScopeInterface;

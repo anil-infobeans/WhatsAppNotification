@@ -11,7 +11,7 @@
             <group id="apisetting" showInDefault="1" sortOrder="10">
                 <label>Twilio API Configuration</label>
                 <field id="enable" type="select" showInDefault="1" sortOrder="0" showInWebsite="1" showInStore="1">
-                    <label>WhatsApp Order Notification Enable</label>
+                    <label>WhatsApp Notification Enable</label>
                     <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
                 </field>
                 <field id="sid" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -30,7 +30,7 @@
                 </field>
             </group>
             <group id="orderplace" showInDefault="1" sortOrder="30">
-                <label>Order Placement Notification Settings</label>
+                <label>New Order Notification Settings</label>
                 <field id="enable" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
@@ -40,7 +40,7 @@
                     <source_model>Infobeans\WhatsApp\Model\Config\Source\Templates</source_model>
                 </field>
             </group>
-            <group id="shipment" showInDefault="1" sortOrder="30">
+<!--            <group id="shipment" showInDefault="1" sortOrder="30">
                 <label>Order Shipment Notification Settings</label>
                 <field id="enable" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable</label>
@@ -61,7 +61,7 @@
                     <label>Template</label>
                     <source_model>Infobeans\WhatsApp\Model\Config\Source\Templates</source_model>
                 </field>
-            </group>
+            </group>-->
         </section>
     </system>
 </config>

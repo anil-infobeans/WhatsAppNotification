@@ -1,5 +1,13 @@
 <?php
-
+/**
+ * Infobeans_WhatsApp Module
+ * @category   Infobeans
+ * @package    Infobeans_WhatsApp
+ * @version    1.0.0
+ * @description Collection Class
+ * @author     Infobeans
+ * @codingStandardsIgnoreStart
+ */
 namespace Infobeans\WhatsApp\Model\ResourceModel\Templates;
 
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;

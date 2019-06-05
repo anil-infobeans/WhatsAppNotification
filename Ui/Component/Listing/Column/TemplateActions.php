@@ -1,5 +1,13 @@
 <?php
-
+/**
+ * Infobeans_WhatsApp Module
+ * @category    Infobeans
+ * @package     Infobeans_WhatsApp
+ * @version     1.0.0
+ * @description TemplateActions Class
+ * @author      Infobeans
+ * @codingStandardsIgnoreStart
+ */
 namespace Infobeans\WhatsApp\Ui\Component\Listing\Column;
 
 use Magento\Framework\UrlInterface;

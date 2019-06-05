@@ -1,0 +1,25 @@
+{
+    "name": "infobeans/magento2-whatsapp-notification",
+    "description": "",
+    "version": "1.0.0",
+    "require": {
+        "magento/framework": "101.0.*",
+        "php": "~7.1"
+    },
+    "authors": [
+        {
+            "name": "Infobeans",
+            "email": "magentosupport@infobeans.com",
+            "homepage": "https://www.infobeans.com/",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Infobeans\\WhatsApp\\": ""
+        },        
+        "files": [
+            "registration.php"
+        ]
+    }    
+}

@@ -1,5 +1,13 @@
 <?php
-
+/**
+ * Infobeans_WhatsApp Module
+ * @category   Infobeans
+ * @package    Infobeans_WhatsApp
+ * @version    1.0.0
+ * @description Delete Class
+ * @author     Infobeans
+ * @codingStandardsIgnoreStart
+ */
 namespace Infobeans\WhatsApp\Controller\Adminhtml\Templates;
 
 use Magento\Backend\App\Action;
