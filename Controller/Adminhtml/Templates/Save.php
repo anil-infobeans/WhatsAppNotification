@@ -92,7 +92,7 @@ class Save extends \Magento\Backend\App\Action
             }
 
             $this->dataPersistor->set('whatsapp_templates', $data);
-            return $resultRedirect->setPath('*/*/edit', ['id' => $this->getRequest()->getParam('page_id')]);
+            return $resultRedirect->setPath('*/*/edit', ['id' => $this->getRequest()->getParam('id')]);
         }
         return $resultRedirect->setPath('*/*/');
     }
@@ -106,22 +106,6 @@ class Save extends \Magento\Backend\App\Action
      */
     private function processResultRedirect($model, $resultRedirect, $data)
     {
-        if ($this->getRequest()->getParam('back', false) === 'duplicate') {
-            $newPage = $this->templatesFactory->create(['data' => $data]);
-            $newPage->setId(null);
-            $identifier = $model->getIdentifier() . '-' . uniqid();
-            $newPage->setIdentifier($identifier);
-            $newPage->setIsActive(false);
-            $model->save($newPage);
-            $this->messageManager->addSuccessMessage(__('You duplicated the page.'));
-            return $resultRedirect->setPath(
-                '*/*/edit',
-                [
-                    'page_id' => $newPage->getId(),
-                    '_current' => true
-                ]
-            );
-        }
         $this->dataPersistor->clear('whatsapp_templates');
         if ($this->getRequest()->getParam('back')) {
             return $resultRedirect->setPath('*/*/edit', ['id' => $model->getId(), '_current' => true]);

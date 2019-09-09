@@ -103,6 +103,7 @@ class Placeafter implements ObserverInterface
                     $this->logger->info("Finalmessage : " . $finalmessage);
                     $result  = $this->apiHelper->call($mobilenumber, $finalmessage);
                     $this->logger->info("WhatsApp Number :". $mobilenumber ." Result : " . $result);
+                    return $result;
                 }
             }
         } catch (\Exception $e) {
