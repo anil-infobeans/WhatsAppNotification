@@ -104,7 +104,7 @@ class PlaceafterTest extends TestCase
         );
     }
 
-    public function testDeleteInstance()
+    public function testPlaceafterInstance()
     {
         $this->assertInstanceOf(Placeafter::class, $this->placeAfter);
     }
