@@ -1,8 +1,8 @@
 # WhatsApp Notification Magento 2 Extension
 
-##Quick instructions
+## Quick instructions
 
-###Manual Install
+### Manual Install
 - Create folder structure /app/code/Infobeans/
 - Download the .ZIP file from the marketplace
 - Extract the contents of the .ZIP file to the folder you just created
