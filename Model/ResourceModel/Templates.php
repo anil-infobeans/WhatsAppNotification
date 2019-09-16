@@ -70,7 +70,6 @@ class Templates extends AbstractDb
     public function getIsUniqueTemplateToStores(AbstractModel $object)
     {
         $entityMetadata = $this->metadataPool->getMetadata(TemplatesInterface::class);
-
         $select = $this->getConnection()->select()
             ->from(['cb' => $this->getMainTable()])
             ->where('cb.identifier = ?', $object->getData('identifier'))

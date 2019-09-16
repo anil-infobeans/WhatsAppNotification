@@ -18,7 +18,6 @@ use Magento\Framework\Controller\Result\RedirectFactory;
 class EditTest extends TestCase
 {
     private $editObject;
-    private $indexObject;
     private $contexMock;
     private $resultPageFactory;
     private $templatesFactory;
@@ -55,7 +54,6 @@ class EditTest extends TestCase
                 ->disableOriginalConstructor()
                 ->getMock();
 
-        
         $this->messageManager = $this->getMockBuilder(ManagerInterface::class)
             ->getMockForAbstractClass();
 
@@ -67,14 +65,13 @@ class EditTest extends TestCase
                 ->setMethods(['create', 'setPath'])
                 ->disableOriginalConstructor()
                 ->getMock();
-        
+
         $this->contexMock->expects($this->any())
             ->method('getResultRedirectFactory')
             ->willReturn($this->redirectFactory);
-
+       
        $this->editObject = new Edit($this->contexMock, $this->resultPageFactory, $this->templatesFactory);
 
-       $this->indexObject = new Index($this->contexMock, $this->resultPageFactory);
         
     }
 
@@ -94,31 +91,31 @@ class EditTest extends TestCase
          */
         $post = ['id' => 1];
         $this->stubRequestPostData($post);
-        
+
         $this->templatesFactory->expects($this->any())
                 ->method('create')
                 ->willReturn($this->templatesFactory);
-        
+
         $this->templatesFactory->expects($this->any())
                 ->method('load')
                 ->willReturn($this->templatesFactory);
-        
+
         $this->templatesFactory->expects($this->any())
                 ->method('getId')
                 ->willReturn(1);
-        
+
         $this->templatesFactory->expects($this->any())
                 ->method('getTitle')
                 ->willReturn("Create Template");
-        
+
         $this->templatesFactory->expects($this->any())
                 ->method('getId')
                 ->willReturn(1);
-        
+
         $this->resultPageFactory->expects($this->any())
                 ->method('create')
                 ->willReturn($this->resultPageFactory);
-        
+
          $this->resultPageFactory->expects($this->any())
                 ->method('setActiveMenu')
                 ->willReturn($this->resultPageFactory);

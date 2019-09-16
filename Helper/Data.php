@@ -73,44 +73,4 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $template = $this->templateFactory->create();
         return $template->load($templateId)->getContent();
     }
-
-    public function isEnabledForShipment()
-    {
-        return $this->scopeConfig->getValue(
-            self::XML_SMS_USER_ORDER_PLACE_ENABLE,
-            ScopeInterface::SCOPE_STORE,
-            $this->getStoreid()
-        );
-    }
-
-    public function getOrderShipTemplate()
-    {
-        $templateId = $this->scopeConfig->getValue(
-            self::XML_SMS_USER_USER_ORDER_PLACE_TEXT,
-            ScopeInterface::SCOPE_STORE,
-            $this->getStoreid()
-        );
-        $template = $this->templateFactory->create();
-        return $template->load($templateId)->getContent();
-    }
-
-    public function isEnabledForOrderCancel()
-    {
-        return $this->scopeConfig->getValue(
-            self::XML_SMS_USER_ORDER_PLACE_ENABLE,
-            ScopeInterface::SCOPE_STORE,
-            $this->getStoreid()
-        );
-    }
-
-    public function getOrderCancelTemplate()
-    {
-        $templateId = $this->scopeConfig->getValue(
-            self::XML_SMS_USER_USER_ORDER_PLACE_TEXT,
-            ScopeInterface::SCOPE_STORE,
-            $this->getStoreid()
-        );
-        $template = $this->templateFactory->create();
-        return $template->load($templateId)->getContent();
-    }
 }

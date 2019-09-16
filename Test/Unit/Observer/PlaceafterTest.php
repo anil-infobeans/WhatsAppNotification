@@ -15,7 +15,7 @@ use Magento\Framework\UrlInterface;
 
 /**
  * 
- * @covers \Infobeans\WhatsApp\Controller\Adminhtml\Template\Delete
+ * @covers \Infobeans\WhatsApp\Observer\Placeafter
  */
 class PlaceafterTest extends TestCase
 {

@@ -19,7 +19,7 @@ class TemplatesTest extends TestCase
     {
         $this->abstarctModel = $this
             ->getMockBuilder(AbstractModel::class)
-            ->setMethods(['getId'])
+            ->setMethods(['getId','getData'])
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
         
@@ -38,9 +38,9 @@ class TemplatesTest extends TestCase
             ->getMockBuilder(AdapterInterface::class)
             ->setMethods(['select', 'from', 'where','fetchRow'])
             ->getMockForAbstractClass();
-        
+
         $objectManager = new \Magento\Framework\TestFramework\Unit\Helper\ObjectManager($this);
-        $this->Templates = $objectManager->getObject(
+        $this->templates = $objectManager->getObject(
             Templates::class,
             [
                 'metadataPool' => $this->metadataPool,
@@ -52,7 +52,7 @@ class TemplatesTest extends TestCase
     
     public function testPlaceafterInstance()
     {
-        $this->assertInstanceOf(Templates::class, $this->Templates);
+        $this->assertInstanceOf(Templates::class, $this->templates);
     }
     
     public function testGetConnection()
@@ -68,7 +68,7 @@ class TemplatesTest extends TestCase
                 ->method('getEntityConnection')
                 ->willReturnSelf();
 
-        $this->assertInstanceOf(get_class($this->entityMetadataInterface), $this->Templates->getConnection());
+        $this->assertInstanceOf(get_class($this->entityMetadataInterface), $this->templates->getConnection());
     }
     
     public function testGetIsUniqueTemplateToStoresTrue()
@@ -103,7 +103,7 @@ class TemplatesTest extends TestCase
                 ->expects($this->any())
                 ->method('fetchRow')
                 ->willReturn([]);
-        $this->assertTrue($this->Templates->getIsUniqueTemplateToStores($this->abstarctModel));
+        $this->assertTrue($this->templates->getIsUniqueTemplateToStores($this->abstarctModel));
     }
     
     public function testGetIsUniqueTemplateToStoresFalse()
@@ -138,7 +138,121 @@ class TemplatesTest extends TestCase
                 ->expects($this->any())
                 ->method('fetchRow')
                 ->willReturn(1);
-        $this->assertFalse($this->Templates->getIsUniqueTemplateToStores($this->abstarctModel));
+        $this->assertFalse($this->templates->getIsUniqueTemplateToStores($this->abstarctModel));
+    }
+    
+    public function testGetIsUniqueTemplateToStoresTrueWId()
+    {
+        $this->metadataPool
+                ->expects($this->any())
+                ->method('getMetadata')
+                ->with(TemplatesInterface::class)
+                ->willReturn($this->entityMetadataInterface);
+
+        $this->entityMetadataInterface
+                ->expects($this->any())
+                ->method('getEntityConnection')
+                ->willReturn($this->adapterInterface);
+
+        $this->adapterInterface
+                ->expects($this->any())
+                ->method('select')
+                ->willReturnSelf();
+
+        $this->adapterInterface
+                ->expects($this->any())
+                ->method('from')
+                ->willReturnSelf();
+
+        $this->adapterInterface
+                ->expects($this->any())
+                ->method('where')
+                ->willReturnSelf();
+        $this->abstarctModel
+                ->expects($this->any())
+                ->method('getId')
+                ->willReturn(1);
+        $this->adapterInterface
+                ->expects($this->any())
+                ->method('fetchRow')
+                ->willReturn(1);
+        $this->assertFalse($this->templates->getIsUniqueTemplateToStores($this->abstarctModel));
+    }
+    
+    public function testIsValidTemplateIdentifier()
+    {
+        $expectedResult = true;
+        $testMethod = new \ReflectionMethod(
+                \Infobeans\WhatsApp\Model\ResourceModel\Templates::class, 'isValidTemplateIdentifier'
+        );
+        $testMethod->setAccessible(true);
+        $this->abstarctModel
+                ->expects($this->any())
+                ->method('getData')
+                ->with('identifier')
+                ->willReturn('new_order');
+        
+        $this->assertEquals($expectedResult, $testMethod->invoke($this->templates, $this->abstarctModel));
+    }
+    public function testIsNumericTemplateIdentifier()
+    {
+        $expectedResult = true;
+        $testMethod = new \ReflectionMethod(
+                \Infobeans\WhatsApp\Model\ResourceModel\Templates::class, 'isNumericTemplateIdentifier'
+        );
+        $testMethod->setAccessible(true);
+        $this->abstarctModel
+                ->expects($this->any())
+                ->method('getData')
+                ->with('identifier')
+                ->willReturn(1);
+        
+        $this->assertEquals($expectedResult, $testMethod->invoke($this->templates, $this->abstarctModel));
     }
 
+    public function testBeforeSaveInvalidTemplateindentifier()
+    {
+        $testMethod = new \ReflectionMethod(
+                \Infobeans\WhatsApp\Model\ResourceModel\Templates::class, '_beforeSave'
+        );
+        $testMethod->setAccessible(true);
+        
+        $this->abstarctModel
+                ->expects($this->any())
+                ->method('getData')
+                 ->withConsecutive(['identifier'],['identifier'],['identifier'],['store_id'])
+                ->willReturnOnConsecutiveCalls('new_order2','new_order2','new_order2', 1);
+  
+        $this->metadataPool
+                ->expects($this->any())
+                ->method('getMetadata')
+                ->with(TemplatesInterface::class)
+                ->willReturn($this->entityMetadataInterface);
+
+        $this->entityMetadataInterface
+                ->expects($this->any())
+                ->method('getEntityConnection')
+                ->willReturn($this->adapterInterface);
+
+        $this->adapterInterface
+                ->expects($this->any())
+                ->method('select')
+                ->willReturnSelf();
+
+        $this->adapterInterface
+                ->expects($this->any())
+                ->method('from')
+                ->willReturnSelf();
+
+        $this->adapterInterface
+                ->expects($this->any())
+                ->method('where')
+                ->willReturnSelf();
+
+        $this->adapterInterface
+                ->expects($this->any())
+                ->method('fetchRow')
+                ->willReturn(NULL);
+        $this->assertEquals(Templates::class,get_class($testMethod->invoke($this->templates, $this->abstarctModel)));
+    }
 }
