@@ -32,7 +32,6 @@ class Apicall extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
-
         $this->_storeManager = $storeManager;
         parent::__construct($context);
     }

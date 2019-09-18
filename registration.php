@@ -7,6 +7,7 @@
  * @description Module Regstration Class
  * @author      Infobeans
  * @codingStandardsIgnoreStart
+ * @codeCoverageIgnoreStart
  */
 \Magento\Framework\Component\ComponentRegistrar::register(
     \Magento\Framework\Component\ComponentRegistrar::MODULE,

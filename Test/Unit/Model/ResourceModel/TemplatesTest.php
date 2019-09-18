@@ -212,6 +212,9 @@ class TemplatesTest extends TestCase
 
     public function testBeforeSaveInvalidTemplateindentifier()
     {
+        /**
+         * To execute private/protected function intestcase
+         */
         $testMethod = new \ReflectionMethod(
                 \Infobeans\WhatsApp\Model\ResourceModel\Templates::class, '_beforeSave'
         );

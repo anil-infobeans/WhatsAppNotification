@@ -14,11 +14,11 @@ use Magento\Backend\Model\View\Result\RedirectFactory;
 use Magento\Framework\Message\ManagerInterface;
 
 /**
- * @covers \Magento\Customer\Controller\Adminhtml\Index\Index
+ * @covers \Infobeans\WhatsApp\Controller\Adminhtml\Templates\Save
  */
 class SaveTest extends TestCase
 {
-    private $object;
+    private $saveObject;
     private $dataPersistorInterface;
     private $contexMock;
     private $templatesFactory;
@@ -38,7 +38,11 @@ class SaveTest extends TestCase
                 ->setMethods(['create','load','setData'])
                 ->disableOriginalConstructor()
                 ->getMock();
-
+        
+        $this->templates = $this->getMockBuilder(\Infobeans\WhatsApp\Model\Templates::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        
         $this->request = $this->getMockBuilder(RequestInterface::class)
            ->setMethods([
                'getPostValue',
@@ -101,17 +105,17 @@ class SaveTest extends TestCase
 
         $this->request->expects($this->any())->method('getParam')->willReturn(['id'=>1]);
 
-        $templates = $this->getMockBuilder(\Infobeans\WhatsApp\Model\Templates::class)
+        $this->templates = $this->getMockBuilder(\Infobeans\WhatsApp\Model\Templates::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->templatesFactory->expects($this->any())
                 ->method('load')
-                ->willReturn($templates);
+                ->willReturn($this->templates);
 
-        $templates->expects($this->any())->method('setData')->with($postData);
+        $this->templates->expects($this->any())->method('setData')->with($postData);
 
-        $templates->expects($this->any())->method('save')->willReturn($templates);
+        $this->templates->expects($this->any())->method('save')->willReturn($this->templates);
 
         $this->messageManager->expects($this->any())
            ->method('addErrorMessage')
@@ -137,5 +141,23 @@ class SaveTest extends TestCase
 
         $this->assertEquals($this->redirectFactory ,$this->saveObject->execute());
 
+    }
+    
+    public function testprocessResultRedirect(){
+        
+        $testMethod = new \ReflectionMethod(
+                \Infobeans\WhatsApp\Controller\Adminhtml\Templates\Save::class, 'processResultRedirect'
+        );
+        $testMethod->setAccessible(true);
+        
+        $this->dataPersistorInterface->expects($this->any())
+                ->method('clear')
+                ->with('whatsapp_templates')
+                ->willReturnSelf();
+        $this->redirectFactory->expects($this->any())
+                ->method('setPath')
+                ->with('*/*/')
+                ->willReturn($this->redirectFactory);
+        $this->assertEquals($this->redirectFactory, $testMethod->invoke($this->saveObject, $this->templates, $this->redirectFactory, []));
     }
 }

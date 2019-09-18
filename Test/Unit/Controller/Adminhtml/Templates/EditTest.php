@@ -8,12 +8,10 @@ use Magento\Framework\View\Result\PageFactory;
 use Infobeans\WhatsApp\Model\TemplatesFactory;
 use Magento\Framework\App\RequestInterface;
 use Infobeans\WhatsApp\Controller\Adminhtml\Templates\Edit;
-use Infobeans\WhatsApp\Controller\Adminhtml\Templates\Index;
 use Magento\Framework\Message\ManagerInterface;
-use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\Result\RedirectFactory;
 /**
- * @covers \Magento\Customer\Controller\Adminhtml\Index\Edit
+ * @covers \Infobeans\WhatsApp\Controller\Adminhtml\Templates\Edit
  */
 class EditTest extends TestCase
 {

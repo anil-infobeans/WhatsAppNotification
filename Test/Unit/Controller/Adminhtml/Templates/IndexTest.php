@@ -8,7 +8,7 @@ use Magento\Backend\App\Action\Context;
 use Magento\Framework\View\Result\PageFactory;
 
 /**
- * @covers \Magento\Customer\Controller\Adminhtml\Index\Index
+ * @covers \Infobeans\WhatsApp\Controller\Adminhtml\Templates\Index
  */
 class IndexTest extends TestCase
 {

@@ -7,6 +7,7 @@
  * @description Templates Class
  * @author      Infobeans
  * @codingStandardsIgnoreStart
+ * @codeCoverageIgnoreStart
  */
 namespace Infobeans\WhatsApp\Model;
 
@@ -27,7 +28,7 @@ class Templates extends AbstractModel implements TemplatesInterface, IdentityInt
     
     /**
      * Get ID
-     *
+     * @codeCoverageIgnoreStart
      * @return int
      */
     public function getId()
@@ -37,7 +38,7 @@ class Templates extends AbstractModel implements TemplatesInterface, IdentityInt
 
     /**
      * Get identifier
-     *
+     * @codeCoverageIgnoreStart
      * @return string
      */
     public function getIdentifier()
@@ -47,7 +48,7 @@ class Templates extends AbstractModel implements TemplatesInterface, IdentityInt
 
     /**
      * Get title
-     *
+     * @codeCoverageIgnoreStart
      * @return string
      */
     public function getTitle()
@@ -57,7 +58,7 @@ class Templates extends AbstractModel implements TemplatesInterface, IdentityInt
 
     /**
      * Get content
-     *
+     * @codeCoverageIgnoreStart
      * @return string
      */
     public function getContent()
@@ -67,7 +68,7 @@ class Templates extends AbstractModel implements TemplatesInterface, IdentityInt
 
     /**
      * Get creation time
-     *
+     * @codeCoverageIgnoreStart
      * @return string
      */
     public function getCreatedAT()
@@ -77,7 +78,7 @@ class Templates extends AbstractModel implements TemplatesInterface, IdentityInt
 
     /**
      * Get update time
-     *
+     * @codeCoverageIgnoreStart
      * @return string
      */
     public function getUpdatedAt()
@@ -87,7 +88,7 @@ class Templates extends AbstractModel implements TemplatesInterface, IdentityInt
 
     /**
      * Set ID
-     *
+     * @codeCoverageIgnoreStart
      * @param int $id
      * @return \Infobeans\WhatsApp\Api\Data\TemplatesInterface
      */
@@ -98,7 +99,7 @@ class Templates extends AbstractModel implements TemplatesInterface, IdentityInt
 
     /**
      * Set identifier
-     *
+     * @codeCoverageIgnoreStart
      * @param string $identifier
      * @return \Infobeans\WhatsApp\Api\Data\TemplatesInterface
      */
@@ -109,7 +110,7 @@ class Templates extends AbstractModel implements TemplatesInterface, IdentityInt
 
     /**
      * Set title
-     *
+     * @codeCoverageIgnoreStart
      * @param string $title
      * @return \Infobeans\WhatsApp\Api\Data\TemplatesInterface
      */
@@ -120,7 +121,7 @@ class Templates extends AbstractModel implements TemplatesInterface, IdentityInt
 
     /**
      * Set content
-     *
+     * @codeCoverageIgnoreStart
      * @param string $content
      * @return \Infobeans\WhatsApp\Api\Data\TemplatesInterface
      */
@@ -131,7 +132,7 @@ class Templates extends AbstractModel implements TemplatesInterface, IdentityInt
 
     /**
      * Set creation time
-     *
+     * @codeCoverageIgnoreStart
      * @param string $createdAt
      * @return \Infobeans\WhatsApp\Api\Data\TemplatesInterface
      */
@@ -142,7 +143,7 @@ class Templates extends AbstractModel implements TemplatesInterface, IdentityInt
 
     /**
      * Get identities
-     *
+     * @codeCoverageIgnoreStart
      * @return array
      */
     public function getIdentities()
@@ -152,7 +153,7 @@ class Templates extends AbstractModel implements TemplatesInterface, IdentityInt
 
     /**
      * Set updated time
-     *
+     * @codeCoverageIgnoreStart
      * @param type $updatedAt
      * @return type
      */

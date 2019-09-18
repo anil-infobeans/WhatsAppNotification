@@ -12,7 +12,7 @@ use Magento\Framework\View\Result\PageFactory;
 use Infobeans\WhatsApp\Model\TemplatesFactory;
 
 /**
- * @covers \Magento\Customer\Controller\Adminhtml\Index\Index
+ * @covers \Infobeans\WhatsApp\Controller\Adminhtml\Templates\NewAction
  */
 class NewActionTest extends TestCase
 {
@@ -28,7 +28,7 @@ class NewActionTest extends TestCase
                 ->getMock();
 
         $this->resultForwardFactory = $this->getMockBuilder(ForwardFactory::class)
-                ->setMethods(['forward'])
+                ->setMethods(['forward','create'])
                 ->disableOriginalConstructor()
                 ->getMock();
 
@@ -51,7 +51,7 @@ class NewActionTest extends TestCase
         $this->assertInstanceOf(NewAction::class, $this->newObject);
     }
 
-    public function executeTest()
+    public function testexecute()
     {
         $this->resultForwardFactory->expects($this->once())
             ->method('create')

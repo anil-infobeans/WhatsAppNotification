@@ -50,7 +50,6 @@ class ApicallTest extends TestCase
 
         $this->client = $this->getMockBuilder(Client::class)
                 ->setMethods(['getMessages','create'])
-                //->setConstructorArgs(["Test1","Test2"])
                 ->disableOriginalConstructor()
                 ->getMock();
 

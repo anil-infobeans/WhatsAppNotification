@@ -7,6 +7,7 @@
  * @description TemplatesInterface Class
  * @author     Infobeans
  * @codingStandardsIgnoreStart
+ * @codeCoverageIgnoreStart
  */
 namespace Infobeans\WhatsApp\Api\Data;
 
