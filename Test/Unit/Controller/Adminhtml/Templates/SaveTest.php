@@ -12,6 +12,7 @@ use Magento\Framework\View\Result\PageFactory;
 use Magento\Framework\App\RequestInterface;
 use Magento\Backend\Model\View\Result\RedirectFactory;
 use Magento\Framework\Message\ManagerInterface;
+use Magento\Framework\Exception\LocalizedException;
 
 /**
  * @covers \Infobeans\WhatsApp\Controller\Adminhtml\Templates\Save
@@ -118,7 +119,7 @@ class SaveTest extends TestCase
         $this->templates->expects($this->any())->method('save')->willReturn($this->templates);
 
         $this->messageManager->expects($this->any())
-           ->method('addErrorMessage')
+           ->method('addSuccessMessage')
            ->with(__('You saved the page.'))
            ->willReturnSelf();
 
@@ -159,5 +160,196 @@ class SaveTest extends TestCase
                 ->with('*/*/')
                 ->willReturn($this->redirectFactory);
         $this->assertEquals($this->redirectFactory, $testMethod->invoke($this->saveObject, $this->templates, $this->redirectFactory, []));
+    }
+    public function testExecutePostExep()
+    {
+        $postData = [
+            'id' => null,
+            'store_id' => 1,
+            'title' => 'Ths is test title',
+            'identifier' => 'unique_title_123',
+            'is_active' => true,
+            'content' => 'This is Test content',
+            'back' => false
+        ];
+        $this->request->expects($this->any())->method('getPostValue')->willReturn($postData);
+
+        $this->redirectFactory->expects($this->any())
+                ->method('create')
+                ->willReturn($this->redirectFactory);
+
+        $this->templatesFactory->expects($this->any())
+                ->method('create')
+                ->willReturn($this->templatesFactory);
+
+        $this->request->expects($this->any())->method('getParam')->willReturn(['id'=>1]);
+        $this->templatesFactory->expects($this->any())
+                ->method('load')
+                ->willThrowException(new LocalizedException(__('This page no longer exists.')));
+
+        $this->messageManager->expects($this->any())
+           ->method('addErrorMessage')
+           ->with(__('This page no longer exists.'))
+           ->willReturnSelf();
+
+        //processResultRedirect
+        $this->request->expects($this->any())->method('getParam')->willReturn(['back' => false]);
+
+        $this->dataPersistorInterface->expects($this->any())
+                ->method('set')
+                ->with('whatsapp_templates',$postData)
+                ->willReturnSelf();
+
+        $this->redirectFactory->expects($this->any())
+                ->method('create')
+                ->willReturn($this->redirectFactory);
+
+        $this->redirectFactory->expects($this->any())
+                ->method('setPath')
+                ->with('*/*/')
+                ->willReturn($this->redirectFactory);
+
+        $this->assertEquals($this->redirectFactory ,$this->saveObject->execute());
+
+    }
+    public function testExecutePostLocalExpSave()
+    {
+        $postData = [
+            'id' => 1,
+            'store_id' => 1,
+            'title' => 'Ths is test title',
+            'identifier' => 'unique_title_123',
+            'is_active' => true,
+            'content' => 'This is Test content',
+            'back' => false
+        ];
+        $this->request->expects($this->any())->method('getPostValue')->willReturn($postData);
+
+        $this->redirectFactory->expects($this->any())
+                ->method('create')
+                ->willReturn($this->redirectFactory);
+
+        $this->templatesFactory->expects($this->any())
+                ->method('create')
+                ->willReturn($this->templatesFactory);
+
+        $this->request->expects($this->any())->method('getParam')->willReturn(['id'=>1]);
+
+        $this->templates = $this->getMockBuilder(\Infobeans\WhatsApp\Model\Templates::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->templatesFactory->expects($this->any())
+                ->method('load')
+                ->willReturn($this->templates);
+
+        $this->templates->expects($this->any())->method('setData')->with($postData);
+
+        $this->templates->expects($this->any())->method('save')
+                ->willThrowException(new LocalizedException(__('could not save template.')));
+
+        $this->messageManager->expects($this->any())
+           ->method('addExceptionMessage')
+           ->with(new LocalizedException(__('could not save template.')))
+           ->willReturnSelf();
+
+        //processResultRedirect
+        $this->request->expects($this->any())->method('getParam')->willReturn(['back' => false]);
+
+        $this->dataPersistorInterface->expects($this->any())
+                ->method('set')
+                ->with('whatsapp_templates',$postData)
+                ->willReturnSelf();
+
+        $this->redirectFactory->expects($this->any())
+                ->method('create')
+                ->willReturn($this->redirectFactory);
+
+        $this->redirectFactory->expects($this->any())
+                ->method('setPath')
+                ->with('*/*/edit')
+                ->willReturn($this->redirectFactory);
+
+        $this->assertEquals($this->redirectFactory ,$this->saveObject->execute());
+
+    }
+    public function testExecutePostExpSave()
+    {
+        $postData = [
+            'id' => 1,
+            'store_id' => 1,
+            'title' => 'Ths is test title',
+            'identifier' => 'unique_title_123',
+            'is_active' => true,
+            'content' => 'This is Test content',
+            'back' => false
+        ];
+        $this->request->expects($this->any())->method('getPostValue')->willReturn($postData);
+
+        $this->redirectFactory->expects($this->any())
+                ->method('create')
+                ->willReturn($this->redirectFactory);
+
+        $this->templatesFactory->expects($this->any())
+                ->method('create')
+                ->willReturn($this->templatesFactory);
+
+        $this->request->expects($this->any())->method('getParam')->willReturn(['id'=>1]);
+
+        $this->templates = $this->getMockBuilder(\Infobeans\WhatsApp\Model\Templates::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->templatesFactory->expects($this->any())
+                ->method('load')
+                ->willReturn($this->templates);
+
+        $this->templates->expects($this->any())->method('setData')->with($postData);
+
+        $this->templates->expects($this->any())->method('save')
+                ->willThrowException(new \Exception);
+
+        $this->messageManager->expects($this->any())
+           ->method('addExceptionMessage')
+           ->with(new \Exception)
+           ->willReturnSelf();
+
+        //processResultRedirect
+        $this->request->expects($this->any())->method('getParam')->willReturn(['back' => false]);
+
+        $this->dataPersistorInterface->expects($this->any())
+                ->method('set')
+                ->with('whatsapp_templates',$postData)
+                ->willReturnSelf();
+
+        $this->redirectFactory->expects($this->any())
+                ->method('create')
+                ->willReturn($this->redirectFactory);
+
+        $this->redirectFactory->expects($this->any())
+                ->method('setPath')
+                ->with('*/*/edit')
+                ->willReturn($this->redirectFactory);
+
+        $this->assertEquals($this->redirectFactory ,$this->saveObject->execute());
+
+    }
+    
+    public function testExecuteBlankData()
+    {
+        $postData = [];
+        $this->request->expects($this->any())->method('getPostValue')->willReturn($postData);
+
+        $this->redirectFactory->expects($this->any())
+                ->method('create')
+                ->willReturn($this->redirectFactory);
+
+        $this->redirectFactory->expects($this->any())
+                ->method('setPath')
+                ->with('*/*/')
+                ->willReturn($this->redirectFactory);
+
+        $this->assertEquals($this->redirectFactory ,$this->saveObject->execute());
+
     }
 }

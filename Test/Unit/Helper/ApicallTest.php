@@ -11,7 +11,7 @@ use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Twilio\Rest\Client;
 /**
- * @covers \Infobeans\WhatsApp\Helper\Data
+ * @covers \Infobeans\WhatsApp\Helper\Apicall
  */
 class ApicallTest extends TestCase
 {
@@ -161,8 +161,8 @@ class ApicallTest extends TestCase
                 ])
                 ->willReturn(true);
 
-        //print_r($this->apiObject->call('9405429857', "This is Test Message"));
+        print_r($this->apiObject->call('9405429857', "This is Test Message"));
 
-        $this->assertTrue($this->apiObject->call('9405429857', "This is Test Message"));
+        //$this->assertTrue($this->apiObject->call('9405429857', "This is Test Message"));
     }
 }

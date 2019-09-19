@@ -9,6 +9,7 @@ use Infobeans\WhatsApp\Api\Data\TemplatesInterface;
 use Magento\Framework\EntityManager\EntityMetadataInterface;
 use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\Model\AbstractModel;
+use Magento\Framework\Exception\LocalizedException;
 
 /**
  * @covers \Infobeans\WhatsApp\Model\ResourceModel\Templates
@@ -257,5 +258,104 @@ class TemplatesTest extends TestCase
                 ->method('fetchRow')
                 ->willReturn(NULL);
         $this->assertEquals(Templates::class,get_class($testMethod->invoke($this->templates, $this->abstarctModel)));
+    }
+    
+    /**
+     * @expectedException \Magento\Framework\Exception\LocalizedException
+     */
+    public function testBeforeSaveLocalException()
+    {
+        /**
+         * To execute private/protected function intestcase
+         */
+        $testMethod = new \ReflectionMethod(
+                \Infobeans\WhatsApp\Model\ResourceModel\Templates::class, '_beforeSave'
+        );
+        $testMethod->setAccessible(true);
+        
+        $this->abstarctModel
+                ->expects($this->any())
+                ->method('getData')
+                ->with('identifier')
+                ->willReturn(new LocalizedException(__(
+                    "The page URL key can't use capital letters or disallowed symbols. "
+                    . "Remove the letters and symbols and try again."
+                )));
+        $this->assertEquals(LocalizedException::class,get_class($testMethod->invoke($this->templates, $this->abstarctModel)));
+    }
+    
+    /**
+     * @expectedException \Magento\Framework\Exception\LocalizedException
+     */
+    public function testBeforeSaveLocalExceptionSec()
+    {
+        /**
+         * To execute private/protected function intestcase
+         */
+        $testMethod = new \ReflectionMethod(
+                \Infobeans\WhatsApp\Model\ResourceModel\Templates::class, '_beforeSave'
+        );
+        $testMethod->setAccessible(true);
+        
+        $this->abstarctModel
+                ->expects($this->any())
+                ->method('getData')
+                ->withConsecutive(['identifier'],['identifier'])
+                ->willReturnOnConsecutiveCalls('new_order2',1);
+        $this->assertEquals(LocalizedException::class,get_class($testMethod->invoke($this->templates, $this->abstarctModel)));
+    }
+    
+    /**
+     * @expectedException \Magento\Framework\Exception\LocalizedException
+     */
+    public function testBeforeSaveLocalExceptionThird()
+    {
+        /**
+         * To execute private/protected function intestcase
+         */
+        $testMethod = new \ReflectionMethod(
+                \Infobeans\WhatsApp\Model\ResourceModel\Templates::class, '_beforeSave'
+        );
+        $testMethod->setAccessible(true);
+        
+        $this->abstarctModel
+                ->expects($this->any())
+                ->method('getData')
+                 ->withConsecutive(['identifier'],['identifier'],['identifier'],['store_id'])
+                ->willReturnOnConsecutiveCalls('new_order2','new_order2','new_order2', 1);
+  
+        $this->metadataPool
+                ->expects($this->any())
+                ->method('getMetadata')
+                ->with(TemplatesInterface::class)
+                ->willReturn($this->entityMetadataInterface);
+
+        $this->entityMetadataInterface
+                ->expects($this->any())
+                ->method('getEntityConnection')
+                ->willReturn($this->adapterInterface);
+
+        $this->adapterInterface
+                ->expects($this->any())
+                ->method('select')
+                ->willReturnSelf();
+
+        $this->adapterInterface
+                ->expects($this->any())
+                ->method('from')
+                ->willReturnSelf();
+
+        $this->adapterInterface
+                ->expects($this->any())
+                ->method('where')
+                ->willReturnSelf();
+
+        $this->adapterInterface
+                ->expects($this->any())
+                ->method('fetchRow')
+                ->willReturn(new LocalizedException(__(
+                    "The page URL key can't use only numbers. Add letters or words and try again."
+                )));
+        $this->assertEquals(LocalizedException::class,get_class($testMethod->invoke($this->templates, $this->abstarctModel)));
     }
 }

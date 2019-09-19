@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Infobeans\WhatsApp\Model\Templates\DataProvider;
 use Infobeans\WhatsApp\Model\ResourceModel\Templates\CollectionFactory;
 use Infobeans\WhatsApp\Model\ResourceModel\Templates\Collection;
+use Infobeans\WhatsApp\Model\ResourceModel\Templates;
 
 /**
  * @covers \Infobeans\WhatsApp\Model\Templates\DataProvider
@@ -18,10 +19,14 @@ class DataProviderTest extends TestCase
             ->disableOriginalConstructor()
             ->setMethods(['create'])
             ->getMock();
+        $this->template = $this->getMockBuilder(Template::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getItems','getId','getData'])
+            ->getMock();
         
         $this->collection = $this->getMockBuilder(Collection::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getItems','getId','getData'])
+            ->setMethods(['getItems','getIterator'])
             ->getMock();
 
         $objectManager = new \Magento\Framework\TestFramework\Unit\Helper\ObjectManager($this);
@@ -44,15 +49,22 @@ class DataProviderTest extends TestCase
         $this->collectionFactory->expects($this->once())
                 ->method('create')
                 ->willReturn($this->collection);
+        
+        
         $this->collection->expects($this->any())
                 ->method('getItems')
-                ->willReturn($this->onConsecutiveCalls($this->collection));
-        $this->collection->expects($this->any())
+                ->willReturn($this->collection);
+        
+        $this->collection->expects($this->any())->method('getIterator')->will(
+            $this->returnValue(new \ArrayIterator([$this->template]))
+        );
+        
+        $this->template->expects($this->any())
                 ->method('getId')
-                ->willReturnSelf();
-        $this->collection->expects($this->any())
+                ->willReturn(0);
+        $this->template->expects($this->any())
                 ->method('getData')
-                ->willReturnSelf();
-        $this->dataProvider->getData();
+                ->willReturn("Test Data");
+        $this->assertEquals(["Test Data"],$this->dataProvider->getData());
     }
 }

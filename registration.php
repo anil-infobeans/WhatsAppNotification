@@ -7,8 +7,8 @@
  * @description Module Regstration Class
  * @author      Infobeans
  * @codingStandardsIgnoreStart
- * @codeCoverageIgnoreStart
  */
+//@codeCoverageIgnoreStart
 \Magento\Framework\Component\ComponentRegistrar::register(
     \Magento\Framework\Component\ComponentRegistrar::MODULE,
     'Infobeans_WhatsApp',
@@ -21,3 +21,4 @@
     BP . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR .
     'twilio' . DIRECTORY_SEPARATOR . 'sdk' . DIRECTORY_SEPARATOR . 'Twilio'
 );
+//@codeCoverageIgnoreEnd

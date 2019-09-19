@@ -72,9 +72,11 @@ class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvi
 
     public function getData()
     {
+        // @codeCoverageIgnoreStart
         if (isset($this->loadedData)) {
             return $this->loadedData;
         }
+        //@codeCoverageIgnoreEnd
 
         $templates = $this->collectionFactory->create()->getItems();
         $this->loadedData = [];

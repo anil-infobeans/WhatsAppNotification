@@ -18,12 +18,15 @@ class TemplatesSourceTest extends TestCase
             ->disableOriginalConstructor()
             ->setMethods(['create'])
             ->getMock();
+        $this->templateModel = $this->getMockBuilder(TemplateModel::class)
+            ->setMethods(['getTitle', 'getId'])
+            ->disableOriginalConstructor()
+            ->getMock();
         
         $this->collection = $this->getMockBuilder(Collection::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getId','getTitle'])
             ->getMock();
-
+        
         $objectManager = new \Magento\Framework\TestFramework\Unit\Helper\ObjectManager($this);
         $this->templates = $objectManager->getObject(
             Templates::class,
@@ -44,17 +47,21 @@ class TemplatesSourceTest extends TestCase
     {
         $this->collectionFactory->expects($this->any())
                 ->method('create')
-                ->willReturn($this->onConsecutiveCalls($this->collection));
+                ->willReturn($this->collection);
         
-        $this->collection->expects($this->any())
+        $this->collection->expects($this->any())->method('getIterator')->will(
+            $this->returnValue(new \ArrayIterator([$this->templateModel]))
+        );
+       
+        $this->templateModel->expects($this->any())
                 ->method('getId')
-                ->willReturn($this->collection);
+                ->willReturn(1);
         
-        $this->collection->expects($this->any())
+        $this->templateModel->expects($this->any())
                 ->method('getTitle')
-                ->willReturn($this->collection);
-        
-        $this->templates->toOptionArray();
+                ->willReturn(__("Test Template"));
+
+        $this->assertEquals([['value' =>1, "label" => __("Test Template")]],$this->templates->toOptionArray());
     }
 
 }

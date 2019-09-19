@@ -68,13 +68,20 @@ class Apicall extends \Magento\Framework\App\Helper\AbstractHelper
         );
     }
 
+    /**
+     * 
+     * @param type $mobilenumber
+     * @param type $finalmessage
+     * @return type
+     * @codeCoverageIgnoreStart
+     */
     public function call($mobilenumber, $finalmessage)
     {
         $sid    = $this->getSID();
         $token  = $this->getToken();
         $twilio = new Client($sid, $token);
 
-        $message = $twilio->messages->create(
+       $message = $twilio->messages->create(
             "whatsapp:+".$mobilenumber,
             [
                "from" => "whatsapp:+".$this->getSenderId(),

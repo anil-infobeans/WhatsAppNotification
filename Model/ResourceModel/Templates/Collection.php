@@ -16,6 +16,7 @@ class Collection extends AbstractCollection
 {
     /**
      * Define model & resource model
+     * @codeCoverageIgnoreStart
      */
     protected function _construct()
     {
