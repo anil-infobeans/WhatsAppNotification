@@ -89,6 +89,26 @@ class PlaceafterTest extends TestCase
             ->getMockBuilder(\Magento\Framework\Event\Observer::class)
             ->disableOriginalConstructor()
             ->getMock();
+        
+        $this->order = $this->getMockBuilder(Order::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['load','getBillingAddress', 'getTelephone', 'getCustomerId', 'getGrandTotal','formatPriceTxt'])
+            ->getMock();
+        
+        $this->orderFactory = $this->getMockBuilder(OrderFactory::class)
+                ->disableOriginalConstructor()
+                ->setMethods(['create'])
+                ->getMock();
+
+        $this->customer = $this->getMockBuilder(Customer::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['load'])
+            ->getMock();
+
+        $this->customerFactory = $this->getMockBuilder(CustomerFactory::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['create'])
+            ->getMock();
 
         $objectManager = new \Magento\Framework\TestFramework\Unit\Helper\ObjectManager($this);
         $this->placeAfter = $objectManager->getObject(
@@ -96,8 +116,9 @@ class PlaceafterTest extends TestCase
             [
                 'helperdata' => $this->helperdata,
                 'emailfilter' => $this->emailfilter,
-                'orderFactory' => $this->orderFactory(),
-                'customerFactory' => $this->customerFactory(),
+                'orderFactory' => $this->orderFactory,
+                'customerFactory' => $this->customerFactory,
+                'customer' => $this->customer,
                 'apiHelper' => $this->apiHelper,
                 'urlBuilder' => $this->urlBuilder
             ]
@@ -109,7 +130,7 @@ class PlaceafterTest extends TestCase
         $this->assertInstanceOf(Placeafter::class, $this->placeAfter);
     }
     
-    public function testExecute() 
+    public function testExecuteCustomer()
     {
         $this->helperdata
             ->expects($this->atLeastOnce())
@@ -121,10 +142,53 @@ class PlaceafterTest extends TestCase
             ->method('isEnabledForOrder')
             ->willReturn(true);
         
+        $this->observerMock
+            ->expects($this->atLeastOnce())
+            ->method('getData')
+            ->willReturn(['0' => '11111']);  
+        
+        $this->orderFactory->expects(static::any())
+            ->method('create')
+            ->willReturn($this->order);
+        
+        $this->order->expects(static::any())
+            ->method('load')
+            ->willReturnSelf();
+        $this->order->expects(static::any())
+            ->method('getBillingAddress')
+            ->willReturnSelf();
+        $this->order->expects(static::any())
+            ->method('getTelephone')
+            ->willReturn('121212');
+        $this->order->expects(static::any())
+            ->method('getCustomerId')
+            ->willReturn(1);
+        
+        $this->customerFactory->expects(static::any())
+            ->method('create')
+            ->willReturn($this->customer);
+        
+        $this->customer->expects(static::any())
+            ->method('load')
+            ->willReturnSelf();
+        
         $this->helperdata
             ->expects($this->atLeastOnce())
             ->method('getOrderPlaceTemplate')
             ->willReturn('This is test');
+        
+        $this->urlBuilder
+            ->expects($this->atLeastOnce())
+            ->method('getUrl')
+            ->willReturn('sales/order/view/1');
+        
+        $this->order->expects(static::any())
+            ->method('getGrandTotal')
+            ->willReturn(20);
+        
+        $this->order->expects(static::any())
+            ->method('formatPriceTxt')
+            ->willReturn(20);
         
         $this->emailfilter
             ->expects($this->atLeastOnce())
@@ -136,79 +200,90 @@ class PlaceafterTest extends TestCase
             ->method('call')
             ->willReturn(true);
         
+        $this->assertTrue($this->placeAfter->execute($this->observerMock));
+    }
+    
+    public function testExecuteNoCustomer()
+    {
+        $this->helperdata
+            ->expects($this->atLeastOnce())
+            ->method('isEnabled')
+            ->willReturn(true);
+        
+        $this->helperdata
+            ->expects($this->atLeastOnce())
+            ->method('isEnabledForOrder')
+            ->willReturn(true);
+        
+        $this->observerMock
+            ->expects($this->atLeastOnce())
+            ->method('getData')
+            ->willReturn(['0' => '11111']);  
+        
+        $this->orderFactory->expects(static::any())
+            ->method('create')
+            ->willReturn($this->order);
+        
+        $this->order->expects(static::any())
+            ->method('load')
+            ->willReturnSelf();
+        $this->order->expects(static::any())
+            ->method('getBillingAddress')
+            ->willReturnSelf();
+        $this->order->expects(static::any())
+            ->method('getTelephone')
+            ->willReturn('121212');
+        $this->order->expects(static::any())
+            ->method('getCustomerId')
+            ->willReturn(0);
+        
+        $this->helperdata
+            ->expects($this->atLeastOnce())
+            ->method('getOrderPlaceTemplate')
+            ->willReturn('This is test');
+        
         $this->urlBuilder
             ->expects($this->atLeastOnce())
             ->method('getUrl')
             ->willReturn('sales/order/view/1');
         
-        $this->observerMock
-            ->expects($this->atLeastOnce())
-            ->method('getData')
-            ->willReturn(['0' => '11111']);        
-        $this->assertTrue($this->placeAfter->execute($this->observerMock));
-    }
-
-    public function orderFactory()
-    {
-        $this->orderFactory = $this->getMockBuilder(Order::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['load','getBillingAddress', 'getTelephone', 'getCustomerId', 'getGrandTotal','formatPriceTxt'])
-            ->getMock();
-        
-        $this->orderFactory->expects(static::any())
-            ->method('load')
-            ->willReturnSelf();
-        
-        $this->orderFactory->expects(static::any())
-            ->method('getBillingAddress')
-            ->willReturnSelf();
-        
-        $this->orderFactory->expects(static::any())
+        $this->order->expects(static::any())
             ->method('getGrandTotal')
             ->willReturn(20);
         
-        $this->orderFactory->expects(static::any())
+        $this->order->expects(static::any())
             ->method('formatPriceTxt')
             ->willReturn(20);
         
-        $this->orderFactory->expects(static::any())
-            ->method('getCustomerId')
-            ->willReturn(1);
+        $this->emailfilter
+            ->expects($this->atLeastOnce())
+            ->method('filter')
+            ->willReturn('This is test');
         
-        $this->orderFactory->expects(static::any())
-            ->method('getTelephone')
-            ->willReturn('121212');
+        $this->apiHelper
+            ->expects($this->atLeastOnce())
+            ->method('call')
+            ->willReturn(true);
         
-        $orderLoad = $this->getMockBuilder(OrderFactory::class)
-                ->disableOriginalConstructor()
-                ->setMethods(['create'])
-                ->getMock();
-
-        $orderLoad->expects(static::any())
-                ->method('create')
-                ->willReturn($this->orderFactory);
-        return $orderLoad;
+        $this->assertTrue($this->placeAfter->execute($this->observerMock));
     }
-    
-    public function customerFactory()
-    {
-        $this->customerFactory = $this->getMockBuilder(Customer::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['load'])
-            ->getMock();
-        
-        $this->customerFactory->expects(static::any())
-            ->method('load')
-            ->willReturnSelf();
-        
-        $cuastomerLoad = $this->getMockBuilder(CustomerFactory::class)
-                ->disableOriginalConstructor()
-                ->setMethods(['create'])
-                ->getMock();
 
-        $cuastomerLoad->expects(static::any())
-                ->method('create')
-                ->willReturn($this->customerFactory);
-        return $cuastomerLoad;
+    public function testExecuteException()
+    {
+        $this->helperdata
+            ->expects($this->atLeastOnce())
+            ->method('isEnabled')
+            ->willReturn(true);
+        
+        $this->helperdata
+            ->expects($this->atLeastOnce())
+            ->method('isEnabledForOrder')
+            ->willReturn(true);
+        
+        $this->observerMock
+            ->expects($this->atLeastOnce())
+            ->method('getData')
+            ->willThrowException(new \Exception);
+        $this->assertTrue($this->placeAfter->execute($this->observerMock));
     }
 }

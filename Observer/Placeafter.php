@@ -72,6 +72,7 @@ class Placeafter implements ObserverInterface
 
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
+        $result = '';
         try {
             if ($this->helperdata->isEnabled() && $this->helperdata->isEnabledForOrder()) {
                 $orderIds = $observer->getData('order_ids');
@@ -103,13 +104,13 @@ class Placeafter implements ObserverInterface
                     $this->logger->info("Finalmessage : " . $finalmessage);
                     $result  = $this->apiHelper->call($mobilenumber, $finalmessage);
                     $this->logger->info("WhatsApp Number :". $mobilenumber ." Result : " . $result);
-                    return $result;
                 }
             }
         } catch (\Exception $e) {
             $this->logger->info("Error : ".$e->getMessage());
-            return true;
+            $result = true;
         }
+       return $result;
     }
     
     /**
